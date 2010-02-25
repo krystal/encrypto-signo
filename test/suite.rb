@@ -27,7 +27,9 @@ class BasicSSLTest < Test::Unit::TestCase
     
     should "encrypt & decrypt a large string" do
       raw_string = "A" * 4096
-      assert BasicSSL.encrypt(@public_key, raw_string).is_a?(String)
+      signature = BasicSSL.sign(@private_key, raw_string)
+      assert signature.is_a?(String)
+      assert BasicSSL.verify(@public_key, signature, raw_string)
     end
     
   end

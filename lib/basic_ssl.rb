@@ -4,15 +4,23 @@ require 'base64'
 module BasicSSL
   
   class << self
-    
+
     ## Returns an Base64 encoded string with encryption
     def encrypt(key, string)
-      Base64.encode64(rsa_key(key).public_encrypt(string))
+      aes_encrypt = OpenSSL::Cipher::Cipher.new('AES-256-CBC').encrypt
+      aes_encrypt.key = aes_key = aes_encrypt.random_key
+      crypt = aes_encrypt.update(string) << aes_encrypt.final
+      encrypted_key = rsa_key(key).public_encrypt(aes_key)
+      Base64.encode64(encrypted_key) + Base64.encode64(crypt)
     end
     
     ## Return the raw string after decryption & decoding
     def decrypt(key, string)
-      rsa_key(key).private_decrypt(Base64.decode64(string))
+      encrypted_key, crypt = string.split("=").map{|a|Base64.decode64(a+'=')}
+      aes_key = rsa_key(key).private_decrypt(encrypted_key)
+      aes_decrypt = OpenSSL::Cipher::Cipher.new('AES-256-CBC').decrypt
+      aes_decrypt.key = aes_key
+      aes_decrypt.update(crypt) << aes_decrypt.final
     end
     
     ## Return a signature for the string
