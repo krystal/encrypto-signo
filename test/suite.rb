@@ -19,12 +19,15 @@ class BasicSSLTest < Test::Unit::TestCase
     end
     
     should "should sign & verify a string" do
-      
       raw_string = "testing 123456. kthxbai!"
-      
       signature = BasicSSL.sign(@private_key, raw_string)
       assert signature.is_a?(String)
       assert BasicSSL.verify(@public_key, signature, raw_string)
+    end
+    
+    should "encrypt & decrypt a large string" do
+      raw_string = "A" * 4096
+      assert BasicSSL.encrypt(@public_key, raw_string).is_a?(String)
     end
     
   end
