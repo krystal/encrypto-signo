@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = 'basic_ssl'
-  s.version = "1.0.1"
+  s.version = "1.0.2"
   s.platform = Gem::Platform::RUBY
   s.summary = "Basic encryption and signing wrapper"
   
