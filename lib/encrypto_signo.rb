@@ -1,11 +1,11 @@
 require 'openssl'
 require 'base64'
 
-module BasicSSL
+module EncryptoSigno
   
   class << self
 
-    ## Returns an Base64 encoded string with encryption
+    # Returns an Base64 encoded string with encryption
     def encrypt(key, string)
       aes_encrypt = OpenSSL::Cipher::Cipher.new('AES-256-CBC').encrypt
       aes_encrypt.key = aes_key = aes_encrypt.random_key
@@ -23,14 +23,19 @@ module BasicSSL
       aes_decrypt.update(crypt) << aes_decrypt.final
     end
     
-    ## Return a signature for the string
+    # Return a signature for the string
     def sign(key, string)
       Base64.encode64(rsa_key(key).sign(OpenSSL::Digest::SHA1.new, string))
     end
     
-    ## Verify the string and signature
+    # Verify the string and signature
     def verify(key, signature, string)
       rsa_key(key).verify(OpenSSL::Digest::SHA1.new, Base64.decode64(signature), string)
+    end
+    
+    # Generate a keypair
+    def generate_keypair(size = 2048)
+      OpenSSL::PKey::RSA.new(size)
     end
     
     private

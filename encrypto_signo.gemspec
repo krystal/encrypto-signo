@@ -1,8 +1,8 @@
 Gem::Specification.new do |s|
-  s.name = 'basic_ssl'
-  s.version = "1.0.2"
+  s.name = 'encrypto_signo'
+  s.version = "2.0.2"
   s.platform = Gem::Platform::RUBY
-  s.summary = "Basic encryption and signing wrapper"
+  s.summary = "Basic encryption and signing library for Ruby"
   
   s.files = Dir.glob("{lib}/**/*")
   s.require_path = 'lib'
@@ -10,5 +10,5 @@ Gem::Specification.new do |s|
 
   s.author = "Adam Cooke"
   s.email = "adam@atechmedia.com"
-  s.homepage = "http://github.com/adamcooke/basicssl"
+  s.homepage = "http://atechmedia.com"
 end
