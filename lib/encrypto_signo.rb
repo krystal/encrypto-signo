@@ -7,7 +7,7 @@ module EncryptoSigno
 
     # Returns an Base64 encoded string with encryption
     def encrypt(key, string)
-      aes_encrypt = OpenSSL::Cipher::Cipher.new('AES-256-CBC').encrypt
+      aes_encrypt = OpenSSL::Cipher.new('AES-256-CBC').encrypt
       aes_encrypt.key = aes_key = aes_encrypt.random_key
       crypt = aes_encrypt.update(string) << aes_encrypt.final
       encrypted_key = rsa_key(key).public_encrypt(aes_key)
@@ -18,7 +18,7 @@ module EncryptoSigno
     def decrypt(key, string)
       encrypted_key, crypt = string.split("|").map{|a| Base64.decode64(a) }
       aes_key = rsa_key(key).private_decrypt(encrypted_key)
-      aes_decrypt = OpenSSL::Cipher::Cipher.new('AES-256-CBC').decrypt
+      aes_decrypt = OpenSSL::Cipher.new('AES-256-CBC').decrypt
       aes_decrypt.key = aes_key
       aes_decrypt.update(crypt) << aes_decrypt.final
     end
