@@ -1,5 +1,5 @@
 require 'rubygems'
-require 'test/unit'
+require 'test-unit'
 require 'shoulda'
 require 'encrypto_signo'
 
